@@ -63,10 +63,10 @@ getbathy<-function(name="emodnet:mean",xmin=15,xmax=20.5,ymin=30,ymax=32.5){
   	download.file(con,nomfich,quiet=TRUE,mode="wb")
   	#return the corresponding raster"
   	img<-raster::raster(nomfich)
-  	#img[img==0]<-NA
-	#img[img <0] <- 0
+  	img[img==0]<-NA
+	img[img <0] <- 0
 	#correction of strange value using quantile...
-	#img[img >quantile(img,.99)] <- 0
+	img[img >quantile(img,.99)] <- 0
   	#log inverse backtransform if chl or k490 data
   	#if(length(grep("log",data_gmis$unit[idvar],ignore.case=TRUE))>0){
    	#	img<-10^img
