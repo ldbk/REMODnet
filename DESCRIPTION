@@ -13,8 +13,14 @@ Date: 2017-11-15
 Authors@R: c(person("Laurent","Dubroca",
 	email="laurent.dubroca@gmail.com",
 	role=c("aut","cre")),
-    person("Youen", "Vermard",
+    	person("Youen", "Vermard",
 	role= c("aut"),
-	email="youen.vermard@ifremer.fr"))
+	email="youen.vermard@ifremer.fr"),
+	person("Gert", "Everaert",
+	role= c("aut"),
+	email="gert.everaert@vliz.be"),
+	person("Lennert", "Tyberghein",
+	role= c("aut"),
+	email="lennert.tyberghein@vliz.be"))
 Maintainer: Laurent Dubroca <laurent.dubroca@gmail.com>
 RoxygenNote: 6.0.1
