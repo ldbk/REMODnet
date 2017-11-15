@@ -1,0 +1,12 @@
+Package: REMODnet
+Title: EMODnet data extraction and analyses
+Version: 1
+Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Description: EMODnet data extraction and analyses
+Depends: R (>= 3.3.0)
+License: MIT +
+Encoding: UTF-8
+LazyData: true
+Date: 2017-11-15
+Author@R: laurent.dubroca@gmail.com
+Maintainer: laurent.dubroca@gmail.com
