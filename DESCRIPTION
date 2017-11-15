@@ -5,23 +5,6 @@ Description: a description of the package
 VignetteBuilder: knitr
 Depends:
     R (>= 3.3.0)
-Imports:
-    geosphere,
-    caTools,
-    ggplot2,
-    randomForest,
-    e1071,
-    caret,
-    methods,
-    graphics,
-    stats,
-    utils
-Suggests:
-	adehabitatLT,
-	moveHMM,
-	knitr,
-	DiagrammeR,
-    rmarkdown
 License: GPL-3
 URL: https://github.com/ldbk/REMODnet
 Encoding: UTF-8
