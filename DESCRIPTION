@@ -10,3 +10,4 @@ LazyData: true
 Date: 2017-11-15
 Author@R: laurent.dubroca@gmail.com
 Maintainer: laurent.dubroca@gmail.com
+RoxygenNote: 6.0.1
