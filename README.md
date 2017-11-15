@@ -5,4 +5,4 @@ OpenSeaLab works
 
 In a R console:
 
-devtools::install_github("ldbk/EMISR")
+devtools::install_github("ldbk/REMODnet")
