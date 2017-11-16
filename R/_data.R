@@ -24,3 +24,20 @@
 #' @author Youen Vermard
 #' @source http://www.ices.dk/sites/pub/Publication%20Reports/Forms/DispForm.aspx?ID=32178
 "fishingintensity"
+
+#' Fishing effort
+#'
+#' Fishing effort in hour and landings in tons by quarter, gear, area, ICES rectangle (and species for landings) for 2014, 2015 and 2016. 
+#' Data were extracted from the JRC data dissemination facility the 17/11/2017.
+#'
+#' @format dataframe
+#' @author Laurent Dubroca
+#' @source https://stecf.jrc.ec.europa.eu/dd/effort/graphs-quarterhttp://www.ices.dk/sites/pub/Publication%20Reports/Forms/DispForm.aspx?ID=32178
+#' @name fdidata
+NULL
+
+#' @rdname fdidata
+"fdieff"
+#' @rdname fdidata
+"fdilan"
+
