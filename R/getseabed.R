@@ -14,11 +14,12 @@
 #' @source https://marinemaps.jrc.ec.europa.eu/
 #' @examples
 #'   \dontrun{
-#'	img<-getseabed(-1,1,49,50)
+#'	img<-getseabed(-1.3,0.3,49.2,49.9)
 #'	rasterVis::levelplot(img,par.settings=rasterVis::rasterTheme(region=img@data@attributes[[1]]$color))
 #'   } 
 #'
-getseabed<-function(xmin=15,xmax=20.5,ymin=30,ymax=32.5){
+getseabed<-function(xmin=-1.3,xmax=0.3,ymin=49.2,ymax=49.9){
+
 #name="EUSeaMap2016";xmin=15;xmax=20.5;ymin=30;ymax=32.5
   checkparameter<-data.frame(name=TRUE,bbox=FALSE)
   #check parameters name
@@ -53,15 +54,13 @@ getseabed<-function(xmin=15,xmax=20.5,ymin=30,ymax=32.5){
   }
   #need to check if spatial extent is in line with EMODnet coverage
   
-
   if(apply(checkparameter,1,sum)==2){
   	#define WCS connection"
-	name="EUSeaMap2016";xmin=-1.5;xmax=1;ymin=49.25;ymax=49.75
+	#name="EUSeaMap2016";xmin=-1.5;xmax=1;ymin=49.25;ymax=49.75
 	xmin0<-xmin-0.1
 	xmax0<-xmax+0.1
 	ymin0<-ymin-0.1
 	ymax0<-ymax+0.1
-
         bbox<-paste(xmin0,ymin0,xmax0,ymax0,sep=",")
   	res<-0.003
   	width<-floor(1+(xmax0-xmin0)/0.003)
@@ -77,21 +76,38 @@ getseabed<-function(xmin=15,xmax=20.5,ymin=30,ymax=32.5){
 	img@extent@ymin <- ymin0
 	img@extent@xmax <- xmax0
 	img@extent@ymax <- ymax0
-	proj4string(img)<-CRS("+proj=longlat +datum=WGS84")
+	#sp::proj4string(img)<-sp::CRS("+proj=longlat +datum=WGS84")
+	raster::crs(img)<-"+proj=longlat +datum=WGS84"
+
 	#pltseabed <- plotRGB(img, main="EUNIS Seabed Habitats", axes=T)
-	img1<-img[[1]]+1000*img[[2]]+1000*1000*img[[3]]
-	img1[!img1%in%seabedcolorbar$RGB2]<-NA
-	img1<-focal(img1,w=matrix(1,nc=11,nr=11),fun=function(a){modal(a,na.rm=T)},NAonly=T)
-	img2<-ratify(img1,drop=T)
-	levels(img2)<- data.frame(ID=seabedcolorbar$RGB2[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
-				code=seabedcolorbar$code[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
-				description=seabedcolorbar$Description[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
-				color=seabedcolorbar$color[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID])
+	i1<-img[[1]];i2<-img[[2]];i3<-img[[3]]
+	i2<-raster::calc(i2,fun=function(x){1000*x})
+	i3<-raster::calc(i3,fun=function(x){1000*1000*x})
+	img1<-i1+i2+i3
+	test<-raster::match(img1,REMODnet::seabedcolorbar$ID)
+	img1<-raster::mask(img1,test)
+	#img1[!img1%in%seabedcolorbar$RGB2]<-NA
+	#img1[match(img1,seabedcolorbar$RGB2,nomatch=NA)]
+	img1<-raster::focal(img1,w=matrix(1,nc=11,nr=11),fun=function(a){raster::modal(a,na.rm=T)},NAonly=T)
+	img2<-raster::ratify(img1,drop=T)
+	lev<-img2@data@attributes[[1]]
+	lev<-base::merge(lev,REMODnet::seabedcolorbar,by=c("ID"),all.x=T,all.y=F)
+	lev<-lev[,c("ID","code","Description","color","RGB")]
+
+	img2@data@attributes[[1]]<-lev
+	
+	
+	
+	#lev$code<-code=REMODnet::seabedcolorbar$code[REMODnet::seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
+	#list(data.frame(ID=REMODnet::seabedcolorbar$RGB2[REMODnet::seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
+	#			code=REMODnet::seabedcolorbar$code[REMODnet::seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
+	#			description=REMODnet::seabedcolorbar$Description[REMODnet::seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
+	#			color=REMODnet::seabedcolorbar$color[REMODnet::seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID]))
 	#img2@data<- data.frame(ID=seabedcolorbar$RGB2[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
 	#			code=seabedcolorbar$code[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
 	#			description=seabedcolorbar$Description[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID],
 	#			color=seabedcolorbar$color[seabedcolorbar$RGB2%in%levels(img2)[[1]]$ID])
-	img2<-crop(img2,extent(xmin,xmax,ymin,ymax))
+	img2<-raster::crop(img2,raster::extent(xmin,xmax,ymin,ymax))
 	#rasterVis::levelplot(img2)
 	#plot(img2,col=img2@data@attributes[[1]]$color)
 	#rasterVis::levelplot(img2,par.settings=rasterVis::rasterTheme(region=img2@data@attributes[[1]]$color))
@@ -104,7 +120,6 @@ getseabed<-function(xmin=15,xmax=20.5,ymin=30,ymax=32.5){
 #'
 #' @keywords internal
 #'
-
 test0<-function(){
 	
 
@@ -157,26 +172,18 @@ Description=c('XXLand','  Infralittoral rock and other hard substrata','  Atlant
 '  Estuaries','Saline - Brackish coastal lagoons',
 '  Littoral rock and other hard substrata - Littoral sediment'))
 fun<-function(a){as.numeric(a[1])+1000*as.numeric(a[2])+1000*1000*as.numeric(a[3])}
-colorbar$RGB2<-sapply(strsplit(colorbar$RGB,split="-"),fun,simplify=T)
+colorbar$ID<-sapply(strsplit(colorbar$RGB,split="-"),fun,simplify=T)
 fun<-function(a){rgb(as.numeric(a[1]),as.numeric(a[2]),as.numeric(a[3]),max=255)}
 colorbar$color<-sapply(strsplit(colorbar$RGB,split="-"),fun,simplify=T)
 seabedcolorbar<-colorbar
+rm(colorbar)
 save(seabedcolorbar,file="seabedcolorbar.rdata")
 
 
-	img<-getseabed()#-1,3,49,55)
+	library(REMODnet)
+	img<-getseabed(-1,3,49,55)
 	rasterVis::levelplot(img,par.settings=rasterVis::rasterTheme(region=img@data@attributes[[1]]$color))
 #'	plot(img)
 
-
-
-	library(raster)
-	aa<-getbathy("emodnet:mean")
-	plot(aa)
-	aa<-getbathy("emodnet:mean",-1,1,49,50)
-	plot(aa)
-	name="emodnet:mean";xmin=15;xmax=20.5;ymin=30;ymax=32.5
-  	con <- paste0("http://ows.emodnet-bathymetry.eu/wcs?service=wcs&version=1.0.0&request=getcoverage&coverage=", 
-	              name,"&crs=EPSG:4326&BBOX=",bbox,"&format=image/tiff&interpolation=nearest&resx=0.00208333&resy=0.00208333") 
 }
 

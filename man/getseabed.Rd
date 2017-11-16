@@ -7,7 +7,7 @@
 https://marinemaps.jrc.ec.europa.eu/
 }
 \usage{
-getseabed(xmin = 15, xmax = 20.5, ymin = 30, ymax = 32.5)
+getseabed(xmin = -1.3, xmax = 0.3, ymin = 49.2, ymax = 49.9)
 }
 \arguments{
 \item{xmin}{A numeric vector of the lower longitude of the spatial area}
@@ -28,7 +28,7 @@ This function downloads seabed habitat data from EMODNET using wms service
 }
 \examples{
   \dontrun{
-img<-getseabed(-1,1,49,50)
+img<-getseabed(-1.3,0.3,49.2,49.9)
 rasterVis::levelplot(img,par.settings=rasterVis::rasterTheme(region=img@data@attributes[[1]]$color))
   } 
 

@@ -3,7 +3,7 @@ Title: EMODnet data extraction and analyses
 Version: 0.1
 Description: a description of the package
 VignetteBuilder: knitr
-Depends: R (>= 3.3.0),raster
+Depends: R (>= 3.3.0),raster,rasterVis
 License: GPL-3
 URL: https://github.com/ldbk/REMODnet
 Encoding: UTF-8
