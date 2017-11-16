@@ -12,3 +12,15 @@
 #' 
 #' @source https://marinemaps.jrc.ec.europa.eu/
 "seabedcolorbar"
+
+#' Fishing intensity
+#'
+#' ICES files of fishing intensity and pressure mapping, extraction 15 november 2017 from the ICES website.
+#' Fishing intensity is defined as the swept area ratios : the number of times the c‐square has
+#' been swept (see the report for further details http://www.ices.dk/sites/pub/Publication%20Reports/Forms/DispForm.aspx?ID=32429
+#' 
+#' @format raster stack of 4 layers : surface and subsurface fishing intensity in 2014 and 2015
+#'
+#' @author Youen Vermard
+#' @source http://www.ices.dk/sites/pub/Publication%20Reports/Forms/DispForm.aspx?ID=32178
+"fishingintensity"
