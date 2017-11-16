@@ -65,20 +65,20 @@ getseabed<-function(xmin=15,xmax=20.5,ymin=30,ymax=32.5){
         bbox<-paste(xmin0,ymin0,xmax0,ymax0,sep=",")
   	res<-0.003
   	width<-floor(1+(xmax0-xmin0)/0.003)
-  	heigth<-floor(1+(ymax0-ymin0)/0.003)
+  	height<-floor(1+(ymax0-ymin0)/0.003)
 	#width<-400
 	#height<-200
 	con <- paste0("https://marinemaps.jrc.ec.europa.eu/geoserver/wms/?layers=geonode:eunis_hl_coastmar_cl&bbox=", bbox,
 		      "&service=WMS&format=image/png&interpolation=nearest&srs=EPSG:4326&request=GetMap&height=",height,"&width=",width,"")
 	download.file(con, "img.png", quiet = TRUE, mode = "wb")
 	img <- raster::brick("img.png")
-	pltseabed <- plotRGB(img, main="EUNIS Seabed Habitats", axes=T)
+	#pltseabed <- plotRGB(img, main="EUNIS Seabed Habitats", axes=T)
 	img@extent@xmin <- xmin0
 	img@extent@ymin <- ymin0
 	img@extent@xmax <- xmax0
 	img@extent@ymax <- ymax0
 	proj4string(img)<-CRS("+proj=longlat +datum=WGS84")
-	pltseabed <- plotRGB(img, main="EUNIS Seabed Habitats", axes=T)
+	#pltseabed <- plotRGB(img, main="EUNIS Seabed Habitats", axes=T)
 	img1<-img[[1]]+1000*img[[2]]+1000*1000*img[[3]]
 	img1[!img1%in%seabedcolorbar$RGB2]<-NA
 	img1<-focal(img1,w=matrix(1,nc=11,nr=11),fun=function(a){modal(a,na.rm=T)},NAonly=T)
