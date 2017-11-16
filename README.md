@@ -1,7 +1,8 @@
 # REMODnet
-OpenSeaLab works
 
-#Installation
+OpenSeaLab dev
+
+# Installation
 
 In a R console:
 
