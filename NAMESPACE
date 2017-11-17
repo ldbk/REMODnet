@@ -3,4 +3,5 @@
 export(getbathy)
 export(gethumactpoint)
 export(gethumactpointall)
+export(gethumactpoly)
 export(getseabed)
