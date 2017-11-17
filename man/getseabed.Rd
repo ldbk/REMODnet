@@ -4,7 +4,7 @@
 \alias{getseabed}
 \title{This function downloads seabed habitat data from EMODNET using wms service}
 \source{
-https://marinemaps.jrc.ec.europa.eu/
+\url{https://marinemaps.jrc.ec.europa.eu/}
 }
 \usage{
 getseabed(xmin = -1.3, xmax = 0.3, ymin = 49.2, ymax = 49.9)
@@ -17,8 +17,6 @@ getseabed(xmin = -1.3, xmax = 0.3, ymin = 49.2, ymax = 49.9)
 \item{ymin}{A numeric vector of the lower latitude of the spatial area}
 
 \item{ymax}{A numeric vector of the max latitude of the spatial area}
-
-\item{name}{A character vector of the shortname of the variable: mean, mean_atlas_land,mean_multicolour, mean_rainbowcolour}
 }
 \value{
 A rasterlayer object

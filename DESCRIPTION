@@ -1,9 +1,14 @@
 Package: REMODnet
 Title: EMODnet data extraction and analyses
 Version: 0.1
-Description: a description of the package
+Description: data extraction using EMODnet webservices. Bathymetry, seabed, human activities and more.
 VignetteBuilder: knitr
-Depends: R (>= 3.3.0),raster,rasterVis
+Depends: 
+  R (>= 3.3.0)
+Imports: 
+  raster,
+  rasterVis,
+  knitr
 License: GPL-3
 URL: https://github.com/ldbk/REMODnet
 Encoding: UTF-8
